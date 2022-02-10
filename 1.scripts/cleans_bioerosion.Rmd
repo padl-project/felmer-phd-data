@@ -1,0 +1,30 @@
+---
+title: "Exploring Bioerosion Data"
+author: "Camila Vargas"
+date: "2/8/2022"
+output: html_document
+---
+
+## Set up
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+## Load packages
+library(here)
+library(tidyverse)
+library(janitor)
+library(readxl)
+library(freeR)
+
+## Sets R not to use scientific notations
+options(scipen=999) 
+
+```
+
+## Exploring data
+```{r}
+
+excel_sheets(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"))
+
+```
