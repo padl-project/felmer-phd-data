@@ -28,3 +28,64 @@ options(scipen=999)
 excel_sheets(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"))
 
 ```
+
+We want all sheets expect for Meta data. We will use the metadata to fill in the Metadata.doc
+
+
+## Read Data
+```{r}
+
+bio_raw <- read_excel(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"), sheet = "fungia pieces 15 month") %>% 
+  clean_names()
+
+nr_raw <- read_excel(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"), sheet = "nr of fungia pieces per site") %>% 
+  clean_names()
+
+reef_raw <- read_excel(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"), sheet = "reef pieces ") %>% 
+  clean_names()
+
+```
+
+
+## Explore
+
+**1. fungia pieces 15 month**
+```{r}
+str(bio_raw)
+complete(bio_raw)
+
+sort(unique(bio_raw$fungia_id))
+sort(unique(bio_raw$site))
+
+```
+
+- data looks pretty clean and no issues with numeric values
+- Remove unit from `area_of_fungia_piece_before_deployment_mm2` and `perimeter_fungia_piece_mm`
+- Why are there NAs in area and perimeter columns? 
+
+
+**2. nr of fungia pieces per site**
+```{r}
+str(nr_raw)
+complete(nr_raw)
+```
+
+- Need to add colnames: `site` and `n`
+
+
+**3. reef pieces**
+
+```{r}
+str(reef_raw)
+complete(reef_raw)
+
+sort(unique(reef_raw$site))
+sort(unique(reef_raw$other_calcifiers_outside))
+sort(unique(reef_raw$coral))
+
+```
+
+- Change ? for NA in `coral`
+
+
+
