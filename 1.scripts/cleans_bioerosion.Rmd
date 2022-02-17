@@ -5,6 +5,9 @@ date: "2/8/2022"
 output: html_document
 ---
 
+Franziska Elmer's data.
+Data on bioerosion found in Fungia pieces deployed for 15 months and on pieces of reef rock
+
 ## Set up
 
 ```{r setup, include=FALSE}
@@ -22,7 +25,7 @@ options(scipen=999)
 
 ```
 
-## Exploring data
+##  Data Sheets
 ```{r}
 
 excel_sheets(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"))
@@ -86,6 +89,52 @@ sort(unique(reef_raw$coral))
 ```
 
 - Change ? for NA in `coral`
+
+## Clean- up
+
+**1. fungia pieces 15 month**
+Remove unit from `area_of_fungia_piece_before_deployment_mm2` and `perimeter_fungia_piece_mm`
+```{r}
+
+bio_clean <- bio_raw %>% 
+  rename(area_of_fungia_piece_before_deployment = area_of_fungia_piece_before_deployment_mm2,
+         perimeter_fungia_piece = perimeter_fungia_piece_mm)
+
+```
+
+
+**2. nr of fungia pieces per site**
+- add colnames: `site` and `n`
+
+```{r}
+
+nr_names <- c("site", "n")
+
+colnames(nr_raw) <- nr_names
+  
+```
+
+**3. reef pieces**
+
+Change ? for NA in `coral`
+
+```{r}
+reef_clean <- reef_raw %>% 
+  mutate(coral = case_when(coral != "?" ~ coral))
+
+```
+
+
+## Save
+```{r}
+write_csv(bio_clean, here::here("7.clean_data/elmer_fungia_bioerosion_YYYY.csv"))
+
+write_csv(nr_raw, here::here("7.clean_data/elmer_n_fungia_pieces.csv"))
+
+
+write_csv(reef_clean, here::here("7.clean_data/elmer_reef_bioerosion_YYYY.csv") )
+
+```
 
 
 

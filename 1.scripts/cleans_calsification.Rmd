@@ -1,0 +1,141 @@
+---
+title: "Cleans Calsification Data"
+author: "Camila Vargas"
+date: "2/16/2022"
+output: html_document
+---
+Franziska Elmer's data.
+Data on the amount of CaCO3 deposited on settlement tiles deployed up to 15 months on the reef
+
+## Set up
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+## Load packages
+library(here)
+library(tidyverse)
+library(janitor)
+library(readxl)
+library(freeR)
+library(lubridate)
+
+## Sets R not to use scientific notations
+options(scipen=999) 
+
+```
+
+## Datasets
+```{r}
+
+excel_sheets(here::here("6.raw_data/Calcification Palmry data repository.xlsx"))
+
+```
+
+
+We need all sheets except metadata sheet.
+
+## Read data
+
+```{r}
+bleach_raw <- read_excel(here::here("6.raw_data/Calcification Palmry data repository.xlsx"), sheet = " bleaching tiles") %>% 
+  clean_names()
+
+acid_raw <- read_excel(here::here("6.raw_data/Calcification Palmry data repository.xlsx"), sheet = "acid tiles") %>% 
+  clean_names()
+
+
+benthic_raw <- read_excel(here::here("6.raw_data/Calcification Palmry data repository.xlsx"), sheet = "benthic data") %>% 
+  clean_names()
+
+```
+
+
+## Explore and clean
+
+**1. Bleaching tiles**
+
+```{r}
+colnames(bleach_raw)
+str(bleach_raw)
+
+sort(unique(bleach_raw$tile_id))
+sort(unique(bleach_raw$site))
+sort(unique(bleach_raw$comments))
+
+bleach_clean <- bleach_raw %>% 
+  rename(organic_mater = organic_mater_g)
+
+```
+
+- remove unit from organic_mater_g
+
+**2.Acid tiles**
+```{r}
+colnames(acid_raw)
+str(acid_raw)
+
+sort(unique(acid_raw$tile_id))
+sort(unique(acid_raw$site))
+sort(unique(acid_raw$time_deployed))
+sort(unique(acid_raw$time_retrieved))
+sort(unique(acid_raw$debris_acid_20ml_g))
+
+## this works as the opposite of %in%!!
+`%notin%` <- Negate(`%in%`)
+
+acid_clean <- acid_raw %>% 
+  rename(notes = x17,
+         ca_co3 = kg_ca_co3_m_2_yr_1,
+         debris_acid = debris_acid_20ml_g,
+         tile_weight_post = x48_hrs) %>% 
+  mutate(deployment_date = dmy(time_deployed),
+         retrival_date =  dmy(time_retrieved),
+         notes = case_when(debris_acid %in% c("all acid filtered","combined with other, check which") ~ debris_acid,
+                           T ~ notes),
+         debris_acid = case_when(debris_acid %notin% c("all acid filtered","combined with other, check which") ~ debris_acid),
+         debris_acid = as.numeric(debris_acid)) %>% 
+  select(tile_id, site, deployment_date, retrival_date, everything()) %>% 
+  select(-x14, -time_deployed, -time_retrieved)
+  
+
+
+```
+
+- remove columns x14
+- rename notes = x17
+- remove unites from: kg_ca_co3_m_2_yr_1, debris_acid_20ml_g
+- time_deployed and time_retrieved are Dates. format = "dd.mm.yyyy"
+- debris_acid_20ml_g: move "all acid filtered" and "combined with other, check which" to notes
+- make acid_debrif numeric
+
+
+**3.Benthic data**
+```{r}
+colnames(benthic_raw)
+str(benthic_raw)
+complete(benthic_raw)
+
+sort(unique(benthic_raw$tile_id))
+sort(unique(benthic_raw$tag_id))
+sort(unique(benthic_raw$site))
+sort(unique(benthic_raw$deployment_date))
+sort(unique(benthic_raw$retrival_date))
+sort(unique(benthic_raw$tile_side))
+
+benthic_clean <- benthic_raw %>% 
+  mutate(deployment_date = dmy(deployment_date),
+         retrival_date = dmy(retrival_date))
+
+```
+
+- deployment_date and retrival_date need to be class Date. format = "dd.m.yy"
+
+
+## Saving Data
+
+```{r}
+
+```
+
+
