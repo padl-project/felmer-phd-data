@@ -1,0 +1,105 @@
+---
+title: "Cleans Settlement Data"
+author: "Camila Vargas"
+date: "2/17/2022"
+output: html_document
+---
+
+Franziska Elmer's data.
+Data showing what was found on settlement tiles deployed on the reef. Coral recruits were found with the microscope, other substrate was determined using CPCe.
+
+## Set up
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+## Load packages
+library(here)
+library(tidyverse)
+library(janitor)
+library(readxl)
+library(freeR)
+library(lubridate)
+
+## Sets R not to use scientific notations
+options(scipen=999) 
+
+```
+
+## Datasets
+```{r}
+
+excel_sheets(here::here("6.raw_data/Settlement for Palmyra data repository.xlsx"))
+
+```
+
+- check if tiles and tiles benthic have same columns
+- plus coral_recruits
+
+## Read data
+
+```{r}
+tiles_raw <- read_excel(here::here("6.raw_data/Settlement for Palmyra data repository.xlsx"), sheet = "tiles") %>% 
+  clean_names()
+
+benthic_raw <- read_excel(here::here("6.raw_data/Settlement for Palmyra data repository.xlsx"), sheet = "tiles benthic corrected") %>% 
+  clean_names()
+
+
+coral_raw <- read_excel(here::here("6.raw_data/Settlement for Palmyra data repository.xlsx"), sheet = "coral_recruits") %>% 
+  clean_names()
+
+```
+
+
+## Comparing Tiles and Tiles corrected (benthic)
+
+```{r}
+col1 <- colnames(tiles_raw[1:69])
+col2 <- colnames(benthic_raw[1:58])
+```
+
+They are different datasets!
+
+## Explore and clean
+
+**1.Tiles**
+
+```{r}
+colnames(tiles_raw)
+str(tiles_raw)
+
+sort(unique(tiles_raw$tile_id))
+sort(unique(tiles_raw$tag_id))
+sort(unique(tiles_raw$site))
+sort(unique(tiles_raw$deployment_time_months))
+sort(unique(tiles_raw$tile_side))
+sort(unique(tiles_raw$annectocyma_ann))
+sort(unique(tiles_raw$turf))
+
+
+
+```
+- select columns from 1 to 69
+- remove column x68
+- turf is character but should be numeric?
+- deployment date and retrival date needs to be changed to Date format. format = dd.m.yy
+- rename deployment_time_month = deployment_time --> keep as categorical variable 3_13 = 3 month in 2013 and 3_14 = 3 months in 2014.
+- Hrmonize tile side?
+- annectocyma_ann: change "No picture" to NA and turn into numberic
+- turf: change "No picture" to NA and turn into numberic
+- Make it long instead of wide?
+
+**2. Tiles Benthic**
+
+```{r}
+
+colnames(benthic_raw)
+str(benthic_raw)
+
+```
+
+- select columns from 1 to 58
+- remove columns x47, x55, x56, x57
+
+

@@ -64,7 +64,14 @@ sort(unique(bleach_raw$site))
 sort(unique(bleach_raw$comments))
 
 bleach_clean <- bleach_raw %>% 
-  rename(organic_mater = organic_mater_g)
+  rename(organic_mater = organic_mater_g,
+         initial_weight_w_bag = initial_weight_with_plastic_bag,
+         bag_weight = weight_of_plastic_bag,
+         weight_after = weight_after_6_days,
+         notes = comments)
+
+colnames(bleach_clean)
+str(bleach_clean)
 
 ```
 
@@ -88,7 +95,12 @@ acid_clean <- acid_raw %>%
   rename(notes = x17,
          ca_co3 = kg_ca_co3_m_2_yr_1,
          debris_acid = debris_acid_20ml_g,
-         tile_weight_post = x48_hrs) %>% 
+         tile_weight_after = x48_hrs,
+         initial_weight_w_bag = initial_weight_with_plastic_bag,
+         bag_weight = weight_of_plastic_bag,
+         acid_volume_end = volume_of_acid_at_end_ml,
+         total_debris_acid = total_debris_in_acid,
+         debris_filter_weight = all_debris_filter_weight) %>% 
   mutate(deployment_date = dmy(time_deployed),
          retrival_date =  dmy(time_retrieved),
          notes = case_when(debris_acid %in% c("all acid filtered","combined with other, check which") ~ debris_acid,
@@ -98,7 +110,8 @@ acid_clean <- acid_raw %>%
   select(tile_id, site, deployment_date, retrival_date, everything()) %>% 
   select(-x14, -time_deployed, -time_retrieved)
   
-
+colnames(acid_clean)
+str(acid_clean)
 
 ```
 
@@ -107,7 +120,7 @@ acid_clean <- acid_raw %>%
 - remove unites from: kg_ca_co3_m_2_yr_1, debris_acid_20ml_g
 - time_deployed and time_retrieved are Dates. format = "dd.mm.yyyy"
 - debris_acid_20ml_g: move "all acid filtered" and "combined with other, check which" to notes
-- make acid_debrif numeric
+- make acid_debrief numeric
 
 
 **3.Benthic data**
@@ -127,6 +140,9 @@ benthic_clean <- benthic_raw %>%
   mutate(deployment_date = dmy(deployment_date),
          retrival_date = dmy(retrival_date))
 
+colnames(benthic_clean)
+str(benthic_clean)
+
 ```
 
 - deployment_date and retrival_date need to be class Date. format = "dd.m.yy"
@@ -135,7 +151,16 @@ benthic_clean <- benthic_raw %>%
 ## Saving Data
 
 ```{r}
+## Bleach
 
+write_csv(bleach_clean, here::here("7.clean_data/elmer_palmyra_bleaching_tiles_calcification_data_2013.csv"))
+
+## Acid
+
+write_csv(acid_clean, here::here("7.clean_data/elmer_palmyra_acid_tiles_calcification_data_2013_2014.csv"))
+
+## Benthic
+write_csv(benthic_clean, here::here("7.clean_data/elmer_palmyra_benthic_coverage_calcification_data_2013_2014.csv"))
 ```
 
 
