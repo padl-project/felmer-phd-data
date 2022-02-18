@@ -97,9 +97,38 @@ sort(unique(tiles_raw$turf))
 colnames(benthic_raw)
 str(benthic_raw)
 
+sort(unique(benthic_raw$tile_id))
+sort(unique(benthic_raw$annectocyma_ann))
+
+
 ```
 
 - select columns from 1 to 58
 - remove columns x47, x55, x56, x57
+- annectocyma_ann: remplace "no pic" with NA
+
+
+**3. Coral Recruits**
+```{r}
+colnames(coral_raw)
+str(coral_raw)
+
+sort(unique(coral_raw$recruit_id))
+sort(unique(coral_raw$top_bottom))
+sort(unique(coral_raw$tile_id))
+sort(unique(coral_raw$site))
+sort(unique(coral_raw$taxo_id))
+sort(unique(coral_raw$diameter_caliper))
+sort(unique(coral_raw$area_tile_picture_mm2))
+sort(unique(coral_raw$area_milimeter_paper))
+sort(unique(coral_raw$nr_of_polyps))
+sort(unique(coral_raw))
+
+
+```
+
+- select columns form 1:26
+- remove columns x14 and x15
+
 
 
