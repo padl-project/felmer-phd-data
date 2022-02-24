@@ -122,6 +122,7 @@ sort(unique(coral_raw$diameter_caliper))
 sort(unique(coral_raw$area_tile_picture_mm2))
 sort(unique(coral_raw$area_milimeter_paper))
 sort(unique(coral_raw$nr_of_polyps))
+
 sort(unique(coral_raw))
 
 
