@@ -110,6 +110,7 @@ acid_clean <- acid_raw %>%
   select(tile_id, site, deployment_date, retrival_date, everything()) %>% 
   select(-x14, -time_deployed, -time_retrieved)
   
+## Check
 colnames(acid_clean)
 str(acid_clean)
 
@@ -140,6 +141,7 @@ benthic_clean <- benthic_raw %>%
   mutate(deployment_date = dmy(deployment_date),
          retrival_date = dmy(retrival_date))
 
+## Check
 colnames(benthic_clean)
 str(benthic_clean)
 
@@ -152,15 +154,13 @@ str(benthic_clean)
 
 ```{r}
 ## Bleach
-
-write_csv(bleach_clean, here::here("7.clean_data/elmer_palmyra_bleaching_tiles_calcification_data_2013.csv"))
+write_csv(bleach_clean, here::here("7.clean_data/elmer_palmyra_calcification_bleaching_tiles_2013.csv"))
 
 ## Acid
-
-write_csv(acid_clean, here::here("7.clean_data/elmer_palmyra_acid_tiles_calcification_data_2013_2014.csv"))
+write_csv(acid_clean, here::here("7.clean_data/elmer_palmyra_calcification_acid_tiles_2013_2014.csv"))
 
 ## Benthic
-write_csv(benthic_clean, here::here("7.clean_data/elmer_palmyra_benthic_coverage_calcification_data_2013_2014.csv"))
+write_csv(benthic_clean, here::here("7.clean_data/elmer_palmyra_calcification_benthic_coverage_2013_2014.csv"))
 ```
 
 

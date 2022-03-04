@@ -85,20 +85,21 @@ tiles_clean <- tiles_raw %>%
          tile_side = case_when(tile_side == "B-needs new pic" ~ "B",
                                T ~ tile_side),
          annectocyma_ann = case_when(annectocyma_ann != "No picture" ~ annectocyma_ann) %>% as.numeric(.)) %>% 
-  rename(deployment_time = deployment_time_months)
+  rename(deployment_time = deployment_time_months) %>% 
+  select(-x68, - x59)
   
 
 
 ```
 - select columns from 1 to 69
-- remove column x68 and x59
 - turf is character but should be numeric?
 - deployment date and retrieval date needs to be changed to Date format. format = dd.m.yy
 - rename deployment_time_month = deployment_time --> keep as categorical variable 3_13 = 3 month in 2013 and 3_14 = 3 months in 2014.
-- Hrmonize tile side?
-- annectocyma_ann: change "No picture" to NA and turn into numberic
+- Harmonize tile side? --> we will keep them as it is and explain each one on the metadata
+- annectocyma_ann: change "No picture" to NA and turn into numeric
 - turf: change "No picture" to NA and turn into numeric
 - Make it long instead of wide? --> Leave data as it is to avoid any misinterpretation
+- remove column x68 and x59
 
 **2. Tiles Benthic**
 
@@ -110,12 +111,17 @@ str(benthic_raw)
 sort(unique(benthic_raw$tile_id))
 sort(unique(benthic_raw$annectocyma_ann))
 
+benthic_clean <- benthic_raw %>% 
+  select(1:58) %>% 
+  mutate(annectocyma_ann = case_when(annectocyma_ann != "no pic" ~ annectocyma_ann)) %>% 
+  select(-x47, -x55, -x56, -x57)
+
 
 ```
 
 - select columns from 1 to 58
 - remove columns x47, x55, x56, x57
-- annectocyma_ann: remplace "no pic" with NA
+- annectocyma_ann: replace "no pic" with NA --> NA = no information
 
 
 **3. Coral Recruits**
@@ -136,10 +142,32 @@ sort(unique(coral_raw$nr_of_polyps))
 sort(unique(coral_raw))
 
 
+coral_clean <- coral_raw %>% 
+  select(1:26, -x14, -x15, x19)
+
+
 ```
 
 - select columns form 1:26
 - remove columns x14 and x15
 
 
+## Check clean!
+Need to check if all clean data is correct! And save again if necesary.
+
+
+## Save clean
+```{r}
+## tiles
+write_csv(tiles_clean, here::here("7.clean_data/elmer_palmyra_settlement_tiles_2013_2014.csv"))
+
+## benthic
+write_csv(tiles_clean, here::here("7.clean_data/elmer_palmyra_settlement_benthic_coverage_2013_1014.csv"))
+
+
+
+##
+write_csv(tiles_clean, here::here("7.clean_data/elmer_palmyra_settlement_coral_recruits_2013_2014.csv"))
+
+```
 
