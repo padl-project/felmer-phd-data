@@ -1,0 +1,49 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+tile_id		character				
+tag_id		character				
+site		character				
+deployment_date		Date		!Add datetime specifier here!		
+retrival_date		Date		!Add datetime specifier here!		
+deployment_time_months		Date		!Add datetime specifier here!		
+tile_side		categorical				
+coral_recruits		numeric	!Add units here!			
+turf_b		numeric	!Add units here!			
+ccad_b		numeric	!Add units here!			
+ccadd_b		numeric	!Add units here!			
+ccadg_b		numeric	!Add units here!			
+cca_b		numeric	!Add units here!			
+all_cca_b		numeric	!Add units here!			
+dic_b		numeric	!Add units here!			
+gea_b		numeric	!Add units here!			
+lob_b		numeric	!Add units here!			
+mac_b		numeric	!Add units here!			
+pey_b		numeric	!Add units here!			
+non_encrusting_invertebrates_b		numeric	!Add units here!			
+amph_b		numeric	!Add units here!			
+brye_b		numeric	!Add units here!			
+for		numeric	!Add units here!			
+hydc		numeric	!Add units here!			
+hydrd		numeric	!Add units here!			
+invt		numeric	!Add units here!			
+spo		numeric	!Add units here!			
+tubw_b		numeric	!Add units here!			
+tun		numeric	!Add units here!			
+verm_b		numeric	!Add units here!			
+bare_b		numeric	!Add units here!			
+grazed_32		numeric	!Add units here!			
+grazed_all_b		numeric	!Add units here!			
+turf_t		numeric	!Add units here!			
+ccad_t		numeric	!Add units here!			
+ccadd_t		numeric	!Add units here!			
+ccadg_t		numeric	!Add units here!			
+cca_t		numeric	!Add units here!			
+all_cca_t		numeric	!Add units here!			
+dic_t		numeric	!Add units here!			
+gea_t		numeric	!Add units here!			
+lob_t		numeric	!Add units here!			
+pey_t		numeric	!Add units here!			
+amph_t		numeric	!Add units here!			
+verm_t		numeric	!Add units here!			
+bare_t		numeric	!Add units here!			
+grazed_47		numeric	!Add units here!			
+grazed_all_t		numeric	!Add units here!			

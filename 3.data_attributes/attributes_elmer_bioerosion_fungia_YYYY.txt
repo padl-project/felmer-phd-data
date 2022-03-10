@@ -1,0 +1,11 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+fungia_id		character				
+site		character				
+area_1_slice		numeric	!Add units here!			
+area_2_slice		numeric	!Add units here!			
+bioerosion_1_slice		numeric	!Add units here!			
+bioerosion_2_slice		numeric	!Add units here!			
+percentage_bioeroded		numeric	!Add units here!			
+min_thickness_of_middle_piece		numeric	!Add units here!			
+area_of_fungia_piece_before_deployment		numeric	!Add units here!			
+perimeter_fungia_piece		numeric	!Add units here!			

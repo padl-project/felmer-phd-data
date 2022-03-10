@@ -1,0 +1,19 @@
+attributeName	code	definition
+site	EC1	
+site	EC2	
+site	FR3	
+site	FR5	
+site	FR7	
+site	FR9	
+site	RT1	
+site	RT10	
+site	RT13	
+site	RT4	
+site	NA	
+tile_side	B	
+tile_side	B-excluded	
+tile_side	T	
+tile_side	T-excluded	
+tile_side	T&B	
+tile_side	T&B-excluded	
+tile_side	NA	

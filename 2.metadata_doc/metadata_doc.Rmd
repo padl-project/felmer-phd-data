@@ -1,7 +1,7 @@
 ---
-title: "ADD TILE"
-author: "ADD AUTHOR"
-date: "ADD DATE"
+title: "Bioerosion, Calcification and Settlement Data"
+author: "Franziska Elmer"
+date: "03/04/2022"
 output: word_document
 ---
 
@@ -22,7 +22,7 @@ The information in this document will be used to create the EML of the data pack
 
 ## 1. Data Package Title
 
-
+Bioerosion on Fungia pieces and coral recruits, calcification and settlement data on Palmyra Atoll reef.
 
 
 ## 2. Dataset Title
@@ -46,11 +46,11 @@ _These are the people who will show up as authors in the dataset citation. These
 
 ```{r, creator table, echo = FALSE, message= FALSE, warning= FALSE}
 
-first_name <- c("", "")
+first_name <- c("Franziska", "")
 middle_in <- c("", "")
-last_name <- c(" ", " ")
+last_name <- c("Elmer", " ")
 organization <- c("", "")
-email <- c("", "")
+email <- c("franziskaelmer@hotmail.com", "")
 orcid <- c("", "")
 
 creator_colname <- c("First Name", "Middle Initial", "Last Name", "Organization", "email address", "ORCID ID")
@@ -87,13 +87,13 @@ _You may also list other personnel who participated in the project (such as fiel
 
 ```{r, personnel table, echo = FALSE, message= FALSE, warning= FALSE}
 
-p_first_name <- c("", "Camila")
+p_first_name <- c("Franziska", "Camila")
 p_middle_in <- c("", "")
-p_last_name <- c(" ", "Vargas Poulsen")
-p_organization <- c(" ", "PADL Data Manager, University of California Santa Barbara")
-p_email <- c("", "camilavargas@ucsb.edu")
+p_last_name <- c("Elmer", "Vargas Poulsen")
+p_organization <- c(" ", "University of California Santa Barbara")
+p_email <- c("franziskaelmer@hotmail.com", "camilavargas@ucsb.edu")
 p_orcid <- c("", "")
-p_role <- c("contact", "associated party")
+p_role <- c("contact", "PADL Data Manager")
 
 personnel_colnames <- c("First Name", "Middle Initial", "Last Name", "Organization", "email address", "ORCID ID", "Role in project")
 
@@ -136,7 +136,7 @@ _Using keywords from a controlled vocabulary (CV) will improve your data's futur
 
 ```{r, keywords table, echo = FALSE, message= FALSE, warning= FALSE, message= FALSE, warning= FALSE }
 
-key_words <- c("Palmyra Atoll", "")
+key_words <- c("Palmyra Atoll", "Coral Settlement", "Fungia Bioerosion", "Calcification")
 
 keyword_table <- tibble(key_words)
 
@@ -192,7 +192,7 @@ flextable::flextable(funding_table) %>%
 
 Information <- c("Begin date", "End date", "Is data collection ongoing or completed?")
 
-Description <- c(" ", "", "Completed")
+Description <- c("2013", "2014", "Completed")
 
 timeframe_table <- tibble(Information, Description)
 
@@ -223,57 +223,11 @@ flextable(geo_loc_table) %>%
 
 ```
 
-**Copy this block to add multiple points or areas.**_
-
-**Verbal description:**
-
-
-```{r, geographic location table 2, echo = FALSE, message= FALSE, warning= FALSE}
-
-coordinate <- c(" ", " ", " ", " ")
-
-geo_loc_table_2 <- tibble(Directions, coordinate)
-
-flextable(geo_loc_table_2) %>% 
-  autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
-
-```
 
 ## 11. Methods
 _Be specific about the study design and field and lab methods for collecting and processing the data. Include instrument descriptions and protocol citations._
 
 Find an example [in this link](https://docs.google.com/document/d/1KdHJObHl5Bxxr9t0LISTwX0cCSVvx7NPUjz5T_P9JEc/edit#)
-
-
-
-## 12. Data Provenance
-
-_Is this data derived from other data? If so, you will want to document this information, so users know where this data came from.  Please specify the source datasets used in the below provenance table, preferably with their DOI or URL.  [Here is an example of a dataset derived from several others](https://portal.edirepository.org/nis/mapbrowse?packageid=edi.101.3)._
-
-
-
-```{r, data provenance, echo = FALSE, message= FALSE, warning= FALSE}
-
-data_title <- c(" ", " ")
-data_doi_url <- c("", "")
-creator_name <- c("", "")
-contact_email <- c("", "")
-
-provenance_colnames <- c("Dataset title", "Dataset DOI or URL", "Creator Name", "Contact Email")
-
-
-provenance_table <- tibble(data_title, data_doi_url, creator_name, contact_email)
-
-colnames(provenance_table) <- provenance_colnames
-
-```
-
-
-```{r, provence table, export, echo=FALSE, message= FALSE, warning= FALSE}
-
-flextable::flextable(provenance_table) %>% 
-  autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
-```
 
 
 
@@ -345,13 +299,13 @@ files_names <- tibble(
 
 ## Creating the attribute .txt
 
-for (i in files_names$file_name){
-
-  EMLassemblyline::template_table_attributes(
-  path = path_templates,
-  data.path = path_data,
-  data.table = paste0(i, ".csv"))
-}
+# for (i in files_names$file_name){
+# 
+#   EMLassemblyline::template_table_attributes(
+#   path = path_templates,
+#   data.path = path_data,
+#   data.table = paste0(i, ".csv"))
+# }
 
 ## reading text into a data frame
 
@@ -372,7 +326,7 @@ for (i in files_names$position){
 
 ```
 
-
+<br>
 
 ```{r, attribute table 1, echo=FALSE, message= FALSE, warning= FALSE}
 
@@ -381,13 +335,71 @@ flextable::flextable(data_attributes1) %>%
 
 ```
 
-
+<br>
 ```{r, attribute table 2, echo=FALSE, message= FALSE, warning= FALSE}
 
 flextable::flextable(data_attributes2) %>% 
   width(width = 1)
 
 ```
+
+<br>
+
+```{r, attribute table3, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes3) %>% 
+  width(width = 1)
+
+```
+<br>
+
+```{r, attribute table 4, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes4) %>% 
+  width(width = 1)
+
+```
+<br>
+
+```{r, attribute table 5, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes5) %>% 
+  width(width = 1)
+
+```
+
+<br>
+```{r, attribute table 6, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes6) %>% 
+  width(width = 1)
+
+```
+
+<br>
+```{r, attribute table 7, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes7) %>% 
+  width(width = 1)
+
+```
+
+<br>
+```{r, attribute table 8, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes8) %>% 
+  width(width = 1)
+
+```
+<br>
+
+```{r, attribute table 9, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(data_attributes9) %>% 
+  width(width = 1)
+
+```
+
 
 ## 14. Attributes code
 
@@ -397,105 +409,91 @@ _If you use codes in your column, please define each code in the following table
 
 ```{r, attribute code, echo = FALSE, message= FALSE, warning= FALSE}
 
-## Note: there can only be one file with he prefix attribute_ in the data attribute folder.
-EMLassemblyline::template_categorical_variables(
-  path = path_templates,
-  data.path = path_data)
+## Attributes list of Files
+attributes_names <- tibble(
+  list.files(path_templates, pattern = "catvars_")) %>% 
+  rename(file_name = 1) %>% 
+  mutate(file_name = str_remove(file_name, ".txt"),
+         catvar_name = paste0("catvar", 1:n()),
+         position = 1:n())
 
-# **UPDATE NAMES**
+## Create catvars file
 
-cat_vars <- read.delim2(here::here(paste0("3.data_attributes/catvars_", file1_name,".txt")))
+# for (i in attributes_names$file_name){
+# 
+#   EMLassemblyline::template_categorical_variables(
+#   path = path_templates,
+#   data.path = path_data)
+# }
+
+##General function
+read_catvar <- function(test){
+  
+  read.delim2(here::here(paste0("3.data_attributes/", test, ".txt")))
+}
+
+## Loop to read and name each file 
+for (i in attributes_names$position){
+  
+  assign(attributes_names$catvar_name[i], read_catvar(attributes_names$file_name[i]))
+
+  }
 
 ```
 
 
-```{r, categorical variables table, echo=FALSE, message= FALSE, warning= FALSE}
+```{r, categorical variables table 1, echo=FALSE, message= FALSE, warning= FALSE}
 
-flextable::flextable(cat_vars) %>%
+flextable::flextable(catvar1) %>%
+  autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
+  
+
+```
+
+<br>
+
+```{r, categorical variables table 2, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(catvar2) %>%
   autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
   
 
 ```
 
 
+<br>
 
-<!-- ### Spatial data objects
+```{r, categorical variables table 3, echo=FALSE, message= FALSE, warning= FALSE}
 
-(List any geospatial data objects you would like to archive. Organize spatial data into .zip directories
-and describe each.)
-Directory name: (A short name for the data)
-Directory description: (A brief description of the data)
-
-Horizontal Coordinate System Name (e.g. WGS_1984_UTM_Zone_12N)
-Horizontal Accuracy Report
-Vertical Accuracy Report
-Cell Size X Direction
-Cell Size Y Direction
-Raster Origin (e.g. Upper Left)
-Number of Rows
-Number of Columns
-Number of Verticals
-Cell Geometry (e.g. pixel) -->
-
-
-## 15. Scripts/code (software)
-
-_List any software scripts/code you would like to archive along with your data. These may include processing scripts you wrote to create, clean, or analyze the data._
-
-
-```{r, script info, echo = FALSE, message= FALSE, warning= FALSE}
-
-file_name <- " "
-description <- " "
-language <- " "
-
-
-script_info_colnames <- c("Filename", "Description", "Scripting language")
-
-
-script_info <- tibble(file_name, description, language)
-
-colnames(script_info) <- script_info_colnames
-
-```
-
-
-```{r, script info export, echo=FALSE, message= FALSE, warning= FALSE}
-
-flextable::flextable(script_info) %>% 
+flextable::flextable(catvar3) %>%
   autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
-```
-
-
-
-
-## 16. Other objects (misc.)
-_List any other objects (e.g., .zip, .pdf, etc.) you would like to archive._
-
-**Note:** At the moment, we are not including any photographic data.
-
-
-```{r, other objects, echo = FALSE, message= FALSE, warning= FALSE}
-
-misc_file_name <- " "
-misc_description <- " "
-misc_data_type <- " "
-
-
-other_obj_colnames <- c("Filename", "Description", "Data type")
-
-other_objects <- tibble(misc_file_name, misc_description, misc_data_type)
-
-colnames(other_objects) <- other_obj_colnames
+  
 
 ```
 
 
-```{r, other objects export, echo=FALSE, message= FALSE, warning= FALSE}
+<br>
 
-flextable::flextable(other_objects) %>% 
+```{r, categorical variables table 4, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(catvar4) %>%
   autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
+  
+
 ```
+
+
+<br>
+
+```{r, categorical variables table 5, echo=FALSE, message= FALSE, warning= FALSE}
+
+flextable::flextable(catvar5) %>%
+  autofit(add_w = 0.2, add_h = 0.1, part = c("body", "header"), unit = "in")
+  
+
+```
+
+
 
 
 ## 17. Articles

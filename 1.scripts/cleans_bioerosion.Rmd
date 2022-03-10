@@ -129,7 +129,7 @@ reef_clean <- reef_raw %>%
 ```{r}
 write_csv(bio_clean, here::here("7.clean_data/elmer_bioerosion_fungia_YYYY.csv"))
 
-write_csv(nr_raw, here::here("7.clean_data/elmer_bioerasion_n_fungia_pieces.csv"))
+write_csv(nr_raw, here::here("7.clean_data/elmer_bioerosion_n_fungia_pieces.csv"))
 
 
 write_csv(reef_clean, here::here("7.clean_data/elmer_bioerosion_reef_YYYY.csv") )

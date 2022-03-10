@@ -1,0 +1,44 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+id		numeric	!Add units here!			
+site		character				
+area1		numeric	!Add units here!			
+perimeter_1		numeric	!Add units here!			
+area2		numeric	!Add units here!			
+perimeter_2		numeric	!Add units here!			
+area3		numeric	!Add units here!			
+perimeter_3		numeric	!Add units here!			
+area_4		numeric	!Add units here!			
+perimeter_4		numeric	!Add units here!			
+area_5		numeric	!Add units here!			
+perimeter_5		numeric	!Add units here!			
+perimeter_area		numeric	!Add units here!			
+other_calcifiers_outside		character				
+coral		categorical				
+area_1_slice		numeric	!Add units here!			
+area_2nd_slice		numeric	!Add units here!			
+area_3rd_slice		numeric	!Add units here!			
+x19		numeric	!Add units here!			
+x20		numeric	!Add units here!			
+bored_first_slice_mm2		numeric	!Add units here!			
+bored_2nd		numeric	!Add units here!			
+bored_3rd		numeric	!Add units here!			
+x24		numeric	!Add units here!			
+x25		numeric	!Add units here!			
+cca_first_slice		numeric	!Add units here!			
+cca_2nd		numeric	!Add units here!			
+cca_3rd		numeric	!Add units here!			
+x29		numeric	!Add units here!			
+x30		numeric	!Add units here!			
+bored_cca_first_slice		numeric	!Add units here!			
+bored_cca_2nd		numeric	!Add units here!			
+bored_cca_3rd		numeric	!Add units here!			
+x34		numeric	!Add units here!			
+proportion_rock_bored		numeric	!Add units here!			
+proportion_cca_bored		numeric	!Add units here!			
+proportion_total_bored		numeric	!Add units here!			
+proportion_cca		numeric	!Add units here!			
+total_area_rock		numeric	!Add units here!			
+net_area_of_accreation		numeric	!Add units here!			
+propotion_cca_weight_adjusted		numeric	!Add units here!			
+proportion_bored_weight_adjusted		numeric	!Add units here!			
+net_proportional_weight_gained		numeric	!Add units here!			

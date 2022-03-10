@@ -1,0 +1,6 @@
+attributeName	code	definition
+coral	ACR	
+coral	other	
+coral	POC	
+coral	thick	
+coral	NA	

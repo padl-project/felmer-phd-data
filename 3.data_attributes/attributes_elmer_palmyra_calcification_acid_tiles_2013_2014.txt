@@ -1,0 +1,17 @@
+attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+tile_id		character				
+site		character				
+deployment_date		Date		!Add datetime specifier here!		
+retrival_date		Date		!Add datetime specifier here!		
+initial_weight_w_bag		numeric	!Add units here!			
+bag_weight		numeric	!Add units here!			
+tile_weight_after		numeric	!Add units here!			
+ca_c02		numeric	!Add units here!			
+ca_co3		numeric	!Add units here!			
+debris		numeric	!Add units here!			
+debris_acid		numeric	!Add units here!			
+acid_volume_end		numeric	!Add units here!			
+total_debris_acid		numeric	!Add units here!			
+all_debris		numeric	!Add units here!			
+debris_filter_weight		numeric	!Add units here!			
+notes		character				
