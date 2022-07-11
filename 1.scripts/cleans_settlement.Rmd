@@ -87,7 +87,6 @@ tiles_clean <- tiles_raw %>%
          annectocyma_ann = case_when(annectocyma_ann != "No picture" ~ annectocyma_ann) %>% as.numeric(.)) %>% 
   rename(deployment_time = deployment_time_months) %>% 
   select(-x68, - x59)
-  
 
 
 ```

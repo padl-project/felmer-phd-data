@@ -2,7 +2,8 @@
 #' 
 #' 
 
-data_path <- paste0(getwd(), "/7.clean_data")
+dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/Palmyra_DataTransfer_EDI_Project"
+data_path <- glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/")
 
 generate_EML_Assemblyline <- function(project_path, excel_input,dataset_id_input) {
 

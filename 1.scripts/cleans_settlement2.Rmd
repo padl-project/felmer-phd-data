@@ -1,0 +1,269 @@
+---
+title: "Clean Settlement Raw Data"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+librarian::shelf("freeR", "glue", "googledrive", "here", "janitor", "lubridate", "readxl", "stringr", "tidyverse")
+
+options(scipen=999)
+
+dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/Palmyra_DataTransfer_EDI_Project"
+```
+
+## Read in the Data from Google Drive 
+
+To do this step, you need to have Google Drive installed on your computer so that you can access Google Drive files using Google File Stream 
+
+```{r, warning=FALSE, message=FALSE}
+# excel_sheets(here::here("6.raw_data/Settlement for Palmyra data repository.xlsx"))
+
+data <- excel_sheets(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Settlement for Palmyra data repository.xlsx"))
+
+tiles_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Settlement for Palmyra data repository.xlsx"), sheet = "tiles") %>% 
+  clean_names()
+
+benthic_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Settlement for Palmyra data repository.xlsx"), sheet = "tiles_benthic_corrected") %>% 
+  clean_names()
+
+coral_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Settlement for Palmyra data repository.xlsx"), sheet = "coral_recruits") %>% 
+  clean_names()
+
+```
+
+## Explore the Data 
+
+- check if tiles and tiles benthic corrected have same columns
+- plus benthic area
+
+### Comparing Tiles and Tiles corrected (benthic)
+
+```{r}
+
+col1 <- colnames(tiles_raw[1:69])
+col2 <- colnames(benthic_raw[1:58])
+
+```
+
+They are different datasets! 
+
+**1.Tiles**
+
+```{r}
+colnames(tiles_raw)
+str(tiles_raw)
+
+sort(unique(tiles_raw$tile_id))
+sort(unique(tiles_raw$tag_id))
+sort(unique(tiles_raw$site))
+sort(unique(tiles_raw$deployment_time_months))
+sort(unique(tiles_raw$tile_side))
+sort(unique(tiles_raw$annectocyma_ann))
+sort(unique(tiles_raw$turf))
+
+```
+
+- select columns from 1 to 69
+- turf is character but should be numeric?
+- deployment date and retrieval date needs to be changed to Date format. format = dd.m.yy
+- rename deployment_time_month = deployment_time --> keep as categorical variable 3_13 = 3 month in 2013 and 3_14 = 3 months in 2014.
+- Harmonize tile side? --> we will keep them as it is and explain each one on the metadata
+- annectocyma_ann: change "No picture" to NA and turn into numeric
+- turf: change "No picture" to NA and turn into numeric
+- Make it long instead of wide? --> Leave data as it is to avoid any misinterpretation
+- remove column x68 and x59
+- What to do with the #ERROR! rows?
+
+#### Clean the Tiles Data 
+
+```{r}
+
+tiles_clean <- tiles_raw %>% 
+  select(1:69) %>% 
+  mutate(turf = case_when(turf != "No picture" ~ turf) %>% as.numeric(.),
+         deployment_date = dmy(deployment_date),
+         retrival_date = dmy(retrival_date),
+         tile_side = case_when(tile_side == "B-needs new pic" ~ "B",
+                               T ~ tile_side),
+         annectocyma_ann = case_when(annectocyma_ann != "No picture" ~ annectocyma_ann) %>%
+           as.numeric(.)) %>% 
+  rename(deployment_time = deployment_time_months) %>% 
+  select(-x68, -x59)
+
+```
+
+**2. Tiles Benthic**
+
+```{r}
+
+colnames(benthic_raw)
+str(benthic_raw)
+
+sort(unique(benthic_raw$tile_id))
+sort(unique(benthic_raw$annectocyma_ann))
+
+```
+
+- select columns from 1 to 58
+- remove columns x47, x55, x56, x57
+- annectocyma_ann: replace "no pic" with NA --> NA = no information
+
+#### Clean the Benthic Data 
+
+```{r}
+
+benthic_clean <- benthic_raw %>% 
+  select(1:58) %>% 
+  mutate(annectocyma_ann = case_when(annectocyma_ann != "no pic" ~ annectocyma_ann)) %>% 
+  select(-x47, -x55, -x56, -x57)
+
+```
+
+**3. Coral Recruits**
+
+```{r, warning=FALSE, echo=FALSE, message=FALSE}
+colnames(coral_raw)
+str(coral_raw)
+
+sort(unique(coral_raw$recruit_id))
+sort(unique(coral_raw$top_bottom))
+sort(unique(coral_raw$tile_id))
+sort(unique(coral_raw$site))
+sort(unique(coral_raw$taxo_id))
+sort(unique(coral_raw$diameter_caliper))
+sort(unique(coral_raw$diameter_milimeter_paper))
+sort(unique(coral_raw$area_tile_picture_mm2))
+sort(unique(coral_raw$area_milimeter_paper))
+sort(unique(coral_raw$nr_of_polyps))
+sort(unique(coral_raw$estimated_height_mm))
+sort(unique(coral_raw$colonized_on_top_of))
+sort(unique(coral_raw$overgrown_by))
+sort(unique(coral_raw$overgrowth_level))
+sort(unique(coral_raw$distance_to_closest_coral_neighbour_caliper))
+sort(unique(coral_raw$distance_to_neighbour_tile))
+
+
+```
+
+- need to make `taxo_id` to lowercase and standardize the spelling and format of "unknown"
+- fix `diameter_caliper` and make it numeric
+- fix `area_tile_picture_mm2` so that it is numeric, make unknown NA
+- fix `area_milimeter_paper` so that it is numeric, make unknown NA 
+- look at `nr_of_polyps`, should it be numeric or categorical?  
+- fix `colonized_on_top_of`, make unknown NA 
+- make `distance_to_neighbour_tile` numeric
+- make `distance_to_closest_coral_neighbour_caliper` numeric
+
+#### Clean Coral Recruits 
+
+```{r}
+coral_raw$taxo_id <- tolower(coral_raw$taxo_id)
+
+# Fix the taxo_id column 
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "-", "")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "_", "")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "\\?", "")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown  poc or acr", "unknown poc or acr")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown acr or poc", "unknown poc or acr")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "uknown", "unknown")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknownacr", "unknown acr")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknownpoc", "unknown poc")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknownpor", "unknown por")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknownpocacr", "unknown poc or acr")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown pocacr", "unknown poc or acr")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown otheroxipora", "unknown other oxipora")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown othersmall", "unknown other small")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "othersmall", "other small")
+coral_raw$taxo_id <- str_replace_all(coral_raw$taxo_id, "unknown / too small to see on pic", "unknown")
+
+coral_clean <- coral_raw
+
+sort(unique(coral_clean$taxo_id))
+coral_clean[coral_clean == "#ERROR!"] <- NA
+
+# Fix the diameter caliper 
+coral_clean$diameter_caliper <- gsub("coral*", NA, coral_clean$diameter_caliper)
+coral_clean$diameter_caliper <- as.numeric(coral_clean$diameter_caliper)
+
+# Fix the area_tile_picture_mm2
+coral_clean <- coral_clean %>% 
+  mutate(area_tile_picture_mm2 = case_when(area_tile_picture_mm2 != "unknown" ~ area_tile_picture_mm2))
+coral_clean$area_tile_picture_mm2 <- str_replace_all(coral_clean$area_tile_picture_mm2, " \\(fuzzy circle\\)", "")
+coral_clean$area_tile_picture_mm2 <- as.numeric(coral_clean$area_tile_picture_mm2)
+
+# Fix the area_milimeter_paper 
+coral_clean$area_milimeter_paper <- gsub("unknown*", NA, coral_clean$area_milimeter_paper)
+coral_clean$area_milimeter_paper <- str_replace_all(coral_clean$area_milimeter_paper, " \\(broken\\)", "")
+coral_clean$area_milimeter_paper <- as.numeric(coral_clean$area_milimeter_paper)
+
+# Fix nr of polyps 
+coral_clean$nr_of_polyps <- tolower(coral_raw$nr_of_polyps)
+coral_clean$nr_of_polyps <- str_replace_all(coral_clean$nr_of_polyps, "uknown", "unknown")
+coral_clean$nr_of_polyps <- str_replace_all(coral_clean$nr_of_polyps, "unkown", "unknown")
+coral_clean$nr_of_polyps <- str_replace_all(coral_clean$nr_of_polyps, "\\?", "unknown")
+coral_clean$nr_of_polyps <- gsub("unknown*", NA, coral_clean$nr_of_polyps)
+
+# Fix colonized on top of
+coral_clean$colonized_on_top_of <- tolower(coral_raw$colonized_on_top_of)
+coral_clean$colonized_on_top_of <- str_replace_all(coral_clean$colonized_on_top_of, "uknown", "unknown")
+coral_clean$colonized_on_top_of <- str_replace_all(coral_clean$colonized_on_top_of, "unkown", "unknown")
+coral_clean$colonized_on_top_of <- gsub("unknown*", NA, coral_clean$colonized_on_top_of)
+
+# Fix colonized on top of 2
+coral_clean$colonized_on_top_of2 <- tolower(coral_raw$colonized_on_top_of2)
+coral_clean$colonized_on_top_of2 <- gsub("unknown*", NA, coral_clean$colonized_on_top_of2)
+
+# Fix colonized on top of 3
+coral_clean$colonized_on_top_of3 <- tolower(coral_raw$colonized_on_top_of3)
+
+# Fix distance to neighbor tile 
+coral_clean$distance_to_neighbour_tile[coral_clean$distance_to_neighbour_tile == "NA"] <-
+  NA
+coral_clean$distance_to_neighbour_tile <-
+  as.numeric(coral_clean$distance_to_neighbour_tile)
+
+# Fix distance to closest caliper
+coral_clean$distance_to_closest_coral_neighbour_caliper[coral_clean$distance_to_closest_coral_neighbour_caliper == "NA"] <- NA
+coral_clean$distance_to_closest_coral_neighbour_caliper <-
+  as.numeric(coral_clean$distance_to_closest_coral_neighbour_caliper)
+
+# Fix overgrown by
+coral_clean$overgrown_by <- tolower(coral_raw$overgrown_by)
+coral_clean$overgrown_by <- gsub("#error!", NA, coral_clean$overgrown_by)
+coral_clean$overgrown_by <- str_replace_all(coral_clean$overgrown_by, "\\?", "")
+sort(unique(coral_clean$overgrown_by))
+
+# Fix overgrowth level
+coral_clean$overgrowth_level <- tolower(coral_raw$overgrowth_level)
+coral_clean$overgrowth_level <- str_replace_all(coral_clean$overgrowth_level, "\\?", "")
+sort(unique(coral_clean$overgrowth_level))
+
+
+```
+
+
+
+
+
+## Save the Clean Data 
+
+Use this code chunk to upload the cleaned data directly to google drive. You write the file directly to the drive as if you were saving it to a local file 
+
+```{r}
+# You can use write_csv or any other function like that to write directly to the drive. 
+
+# Example below: 
+write_csv(tiles_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_settlement_tiles_2013_2014.csv"))
+
+
+write_csv(benthic_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_settlement_benthic_coverage_2013_2014.csv"))
+
+write_csv(coral_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_settlement_coral_recruits_2013_2014.csv"))
+
+```
+
+
+

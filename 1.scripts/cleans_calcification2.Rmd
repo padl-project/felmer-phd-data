@@ -1,0 +1,148 @@
+---
+title: "Cleans Calcification Data"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+librarian::shelf("freeR", "glue", "googledrive", "here", "janitor", "lubridate", "readxl", "stringr", "tidyverse")
+
+options(scipen=999)
+
+dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/Palmyra_DataTransfer_EDI_Project"
+```
+
+
+
+## Read data
+
+```{r}
+bleach_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Calcification Palmrya data repository.xlsx"), sheet = " bleaching tiles") %>% 
+  clean_names()
+
+acid_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Calcification Palmrya data repository.xlsx"), sheet = "acid tiles") %>% 
+  clean_names()
+
+benthic_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Calcification Palmrya data repository.xlsx"), sheet = "benthic data") %>% 
+  clean_names()
+
+```
+
+
+## Explore and clean
+
+**1. Bleaching tiles**
+
+```{r}
+colnames(bleach_raw)
+str(bleach_raw)
+
+sort(unique(bleach_raw$tile_id))
+sort(unique(bleach_raw$site))
+sort(unique(bleach_raw$comments))
+sort(unique(bleach_raw$organic_mater_g))
+
+bleach_clean <- bleach_raw %>% 
+  rename(organic_matter = organic_mater_g,
+         initial_weight_w_bag = initial_weight_with_plastic_bag,
+         bag_weight = weight_of_plastic_bag,
+         weight_after = weight_after_6_days,
+         notes = comments)
+
+colnames(bleach_clean)
+str(bleach_clean)
+
+```
+
+- remove unit from organic_mater_g
+
+**2.Acid tiles**
+```{r}
+colnames(acid_raw)
+str(acid_raw)
+
+sort(unique(acid_raw$tile_id))
+sort(unique(acid_raw$site))
+sort(unique(acid_raw$time_deployed))
+sort(unique(acid_raw$time_retrieved))
+sort(unique(acid_raw$debris_acid_20ml_g))
+
+## this works as the opposite of %in%!!
+`%notin%` <- Negate(`%in%`)
+
+acid_clean <- acid_raw %>% 
+  rename(notes = x17,
+         ca_co3 = kg_ca_co3_m_2_yr_1,
+         debris_acid = debris_acid_20ml_g,
+         tile_weight_after = x48_hrs,
+         initial_weight_w_bag = initial_weight_with_plastic_bag,
+         bag_weight = weight_of_plastic_bag,
+         acid_volume_end = volume_of_acid_at_end_ml,
+         total_debris_acid = total_debris_in_acid,
+         debris_filter_weight = all_debris_filter_weight) %>% 
+  mutate(deployment_date = dmy(time_deployed),
+         retrival_date =  dmy(time_retrieved),
+         notes = case_when(debris_acid %in% c("all acid filtered","combined with other, check which") ~ debris_acid,
+                           T ~ notes),
+         debris_acid = case_when(debris_acid %notin% c("all acid filtered","combined with other, check which") ~ debris_acid),
+         debris_acid = as.numeric(debris_acid)) %>% 
+  select(tile_id, site, deployment_date, retrival_date, everything()) %>% 
+  select(-x14, -time_deployed, -time_retrieved)
+  
+## Check
+colnames(acid_clean)
+str(acid_clean)
+
+```
+
+- remove columns x14
+- rename notes = x17
+- remove unites from: kg_ca_co3_m_2_yr_1, debris_acid_20ml_g
+- time_deployed and time_retrieved are Dates. format = "dd.mm.yyyy"
+- debris_acid_20ml_g: move "all acid filtered" and "combined with other, check which" to notes
+- make acid_debrief numeric
+
+
+**3.Benthic data**
+```{r}
+colnames(benthic_raw)
+str(benthic_raw)
+complete(benthic_raw)
+
+sort(unique(benthic_raw$tile_id))
+sort(unique(benthic_raw$tag_id))
+sort(unique(benthic_raw$site))
+sort(unique(benthic_raw$deployment_date))
+sort(unique(benthic_raw$retrival_date))
+sort(unique(benthic_raw$tile_side))
+
+benthic_clean <- benthic_raw %>% 
+  mutate(deployment_date = dmy(deployment_date),
+         retrival_date = dmy(retrival_date))
+
+## Check
+colnames(benthic_clean)
+str(benthic_clean)
+
+```
+
+- deployment_date and retrival_date need to be class Date. format = "dd.m.yy"
+
+
+## Saving Data
+
+```{r}
+## Bleach
+write_csv(bleach_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_calcification_bleaching_tiles_2013.csv"))
+
+## Acid
+write_csv(acid_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_calcification_acid_tiles_2013_2014.csv"))
+
+## Benthic
+write_csv(benthic_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_palmyra_calcification_benthic_coverage_2013_2014.csv"))
+```
+
+
+

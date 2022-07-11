@@ -5,5 +5,5 @@ initial_weight_w_bag		numeric	!Add units here!
 bag_weight		numeric	!Add units here!			
 filters_weight		numeric	!Add units here!			
 weight_after		numeric	!Add units here!			
-organic_mater		numeric	!Add units here!			
+organic_matter		numeric	!Add units here!			
 notes		character				

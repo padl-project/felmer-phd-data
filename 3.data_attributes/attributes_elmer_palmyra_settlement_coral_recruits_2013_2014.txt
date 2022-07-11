@@ -1,68 +1,28 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
+recruit_id		numeric	!Add units here!			
+top_bottom		categorical				
 tile_id		character				
-tag_id		character				
 site		categorical				
-deployment_date		Date		!Add datetime specifier here!		
-retrival_date		Date		!Add datetime specifier here!		
-deployment_time		Date		!Add datetime specifier here!		
-tile_side		categorical				
-coral_recruits		numeric	!Add units here!			
-poc		numeric	!Add units here!			
-acr		numeric	!Add units here!			
-por		numeric	!Add units here!			
-other		numeric	!Add units here!			
-unknown		numeric	!Add units here!			
-annectocyma_ann		numeric	!Add units here!			
-beania_2_spiny_beans		numeric	!Add units here!			
-bitectiporidae_pleurocodonellina_ple		numeric	!Add units here!			
-bryopensanser_bryop		numeric	!Add units here!			
-bugulidae_bugula_bug		numeric	!Add units here!			
-calloporidae_parellisina_paral		numeric	!Add units here!			
-celleporiaria_cel		numeric	!Add units here!			
-chorizopora_chor		numeric	!Add units here!			
-crepidacanthidae_cripidacantha_cre		numeric	!Add units here!			
-cribrilinidae_puellina_pue		numeric	!Add units here!			
-hippothoidae_hippothoa_hip		numeric	!Add units here!			
-lichenoporidae_disporella_dis		numeric	!Add units here!			
-phidoloporidae_rhynchozoon_rhy		numeric	!Add units here!			
-poricella_por		numeric	!Add units here!			
-smittinidae_parasmittina_paras		numeric	!Add units here!			
-thalamoporellidae_thalamoporella_tha		numeric	!Add units here!			
-tubuliporidae_tubulipora_tub		numeric	!Add units here!			
-turbicellepora_turbi		numeric	!Add units here!			
-margaretta_mar		numeric	!Add units here!			
-stylopoma_sty		numeric	!Add units here!			
-algae_a		numeric	!Add units here!			
-turf		numeric	!Add units here!			
-ccad		numeric	!Add units here!			
-ccadd		numeric	!Add units here!			
-ccadg		numeric	!Add units here!			
-cca		numeric	!Add units here!			
-cyan		numeric	!Add units here!			
-dic		numeric	!Add units here!			
-gab		numeric	!Add units here!			
-gea		numeric	!Add units here!			
-lob		numeric	!Add units here!			
-mac		numeric	!Add units here!			
-pey		numeric	!Add units here!			
-thin_layer_of_algae		numeric	!Add units here!			
-fringy_algae_unknown		numeric	!Add units here!			
-amph		numeric	!Add units here!			
-brye		numeric	!Add units here!			
-for		numeric	!Add units here!			
-hydc		numeric	!Add units here!			
-hydrd		numeric	!Add units here!			
-invt		numeric	!Add units here!			
-spo		numeric	!Add units here!			
-tubw		numeric	!Add units here!			
-tun		numeric	!Add units here!			
-verm		numeric	!Add units here!			
-bare		numeric	!Add units here!			
-sed		numeric	!Add units here!			
-unknown_2		numeric	!Add units here!			
-tape		numeric	!Add units here!			
-cor		numeric	!Add units here!			
-dead		numeric	!Add units here!			
-grazed		numeric	!Add units here!			
-bryozoans		numeric	!Add units here!			
-grazed_cca_grazed		numeric	!Add units here!			
+taxo_id		categorical				
+diameter_caliper		numeric	!Add units here!			
+diameter_milimeter_paper		numeric	!Add units here!			
+area_tile_picture_mm2		numeric	!Add units here!			
+estimated_height_mm		numeric	!Add units here!			
+estimated_volume		numeric	!Add units here!			
+area_milimeter_paper		numeric	!Add units here!			
+nr_of_polyps		categorical				
+colonized_on_top_of		categorical				
+colonized_on_top_of2		categorical				
+colonized_on_top_of3		categorical				
+overgrown_by		categorical				
+overgrowth_level		categorical				
+overgrown_by_2		categorical				
+overgrowth_level_2		categorical				
+dead		character				
+distance_to_closest_coral_neighbour_caliper		numeric	!Add units here!			
+distance_to_neighbour_tile		numeric	!Add units here!			
+pictures		character				
+highest_row_of_polyps		categorical				
+age		categorical				
+first_circle		character				
+x27		character				

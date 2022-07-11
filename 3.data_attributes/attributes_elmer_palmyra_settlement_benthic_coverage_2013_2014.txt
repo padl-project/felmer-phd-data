@@ -1,68 +1,55 @@
 attributeName	attributeDefinition	class	unit	dateTimeFormatString	missingValueCode	missingValueCodeExplanation
 tile_id		character				
-tag_id		character				
-site		categorical				
-deployment_date		Date		!Add datetime specifier here!		
-retrival_date		Date		!Add datetime specifier here!		
-deployment_time		Date		!Add datetime specifier here!		
-tile_side		categorical				
-coral_recruits		numeric	!Add units here!			
-poc		numeric	!Add units here!			
-acr		numeric	!Add units here!			
-por		numeric	!Add units here!			
-other		numeric	!Add units here!			
-unknown		numeric	!Add units here!			
-annectocyma_ann		numeric	!Add units here!			
-beania_2_spiny_beans		numeric	!Add units here!			
-bitectiporidae_pleurocodonellina_ple		numeric	!Add units here!			
-bryopensanser_bryop		numeric	!Add units here!			
-bugulidae_bugula_bug		numeric	!Add units here!			
-calloporidae_parellisina_paral		numeric	!Add units here!			
-celleporiaria_cel		numeric	!Add units here!			
-chorizopora_chor		numeric	!Add units here!			
-crepidacanthidae_cripidacantha_cre		numeric	!Add units here!			
-cribrilinidae_puellina_pue		numeric	!Add units here!			
-hippothoidae_hippothoa_hip		numeric	!Add units here!			
-lichenoporidae_disporella_dis		numeric	!Add units here!			
-phidoloporidae_rhynchozoon_rhy		numeric	!Add units here!			
-poricella_por		numeric	!Add units here!			
-smittinidae_parasmittina_paras		numeric	!Add units here!			
-thalamoporellidae_thalamoporella_tha		numeric	!Add units here!			
-tubuliporidae_tubulipora_tub		numeric	!Add units here!			
-turbicellepora_turbi		numeric	!Add units here!			
-margaretta_mar		numeric	!Add units here!			
-stylopoma_sty		numeric	!Add units here!			
-algae_a		numeric	!Add units here!			
-turf		numeric	!Add units here!			
-ccad		numeric	!Add units here!			
-ccadd		numeric	!Add units here!			
-ccadg		numeric	!Add units here!			
-cca		numeric	!Add units here!			
-cyan		numeric	!Add units here!			
-dic		numeric	!Add units here!			
-gab		numeric	!Add units here!			
-gea		numeric	!Add units here!			
-lob		numeric	!Add units here!			
-mac		numeric	!Add units here!			
-pey		numeric	!Add units here!			
-thin_layer_of_algae		numeric	!Add units here!			
-fringy_algae_unknown		numeric	!Add units here!			
-amph		numeric	!Add units here!			
-brye		numeric	!Add units here!			
-for		numeric	!Add units here!			
-hydc		numeric	!Add units here!			
-hydrd		numeric	!Add units here!			
-invt		numeric	!Add units here!			
-spo		numeric	!Add units here!			
-tubw		numeric	!Add units here!			
-tun		numeric	!Add units here!			
-verm		numeric	!Add units here!			
-bare		numeric	!Add units here!			
-sed		numeric	!Add units here!			
-unknown_2		numeric	!Add units here!			
-tape		numeric	!Add units here!			
-cor		numeric	!Add units here!			
-dead		numeric	!Add units here!			
-grazed		numeric	!Add units here!			
-bryozoans		numeric	!Add units here!			
-grazed_cca_grazed		numeric	!Add units here!			
+annectocyma_ann		categorical				
+beania_2_spiny_beans		categorical				
+bitectiporidae_pleurocodonellina_ple		categorical				
+bryopensanser_bryop		categorical				
+bugulidae_bugula_bug		categorical				
+calloporidae_parellisina_paral		categorical				
+celleporiaria_cel		categorical				
+chorizopora_chor		categorical				
+crepidacanthidae_cripidacantha_cre		categorical				
+cribrilinidae_puellina_pue		categorical				
+hippothoidae_hippothoa_hip		categorical				
+lichenoporidae_disporella_dis		categorical				
+phidoloporidae_rhynchozoon_rhy		categorical				
+poricella_por		categorical				
+smittinidae_parasmittina_paras		categorical				
+thalamoporellidae_thalamoporella_tha		categorical				
+tubuliporidae_tubulipora_tub		categorical				
+turbicellepora_turbi		categorical				
+margaretta_mar		categorical				
+stylopoma_sty		categorical				
+algae_a		categorical				
+turf		categorical				
+ccad		categorical				
+ccadd		categorical				
+ccadg		categorical				
+cca		character				
+cyan		categorical				
+dic		categorical				
+gab		categorical				
+gea		categorical				
+lob		categorical				
+mac		categorical				
+pey		character				
+thin_layer_of_algae		categorical				
+fringy_algae_unknown		categorical				
+amph		categorical				
+brye		categorical				
+for		categorical				
+hydc		categorical				
+hydrd		categorical				
+invt		categorical				
+spo		categorical				
+tubw		categorical				
+tun		categorical				
+verm		categorical				
+bare		character				
+sed		categorical				
+unknown		categorical				
+tape		character				
+cor		categorical				
+dead		categorical				
+grazed		categorical				
+all_bryo		categorical				

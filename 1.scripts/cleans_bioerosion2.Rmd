@@ -1,0 +1,118 @@
+---
+title: "Exploring Bioerosion Data"
+author: "Paloma Cartwright"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+librarian::shelf("freeR", "glue", "googledrive", "here", "janitor", "lubridate", "readxl", "stringr", "tidyverse")
+
+options(scipen=999)
+
+dir_gdrive <- "/Volumes/GoogleDrive/Shared drives/Palmyra_DataTransfer_EDI_Project"
+```
+
+
+## Read in the Data from Google Drive 
+
+To do this step, you need to have Google Drive installed on your computer so that you can access Google Drive files using Google File Stream 
+
+```{r, warning=FALSE, message=FALSE}
+# excel_sheets(here::here("6.raw_data/Bioerosion Palmyra data repository.xlsx"))
+
+bio_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Bioerosion Palmyra data repository.xlsx"), sheet = "fungia pieces 15 month") %>% 
+  clean_names()
+
+nr_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Bioerosion Palmyra data repository.xlsx"), sheet = "nr of fungia pieces per site") %>% 
+  clean_names()
+
+reef_raw <- read_excel(glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/updated sheets with meta data/Bioerosion Palmyra data repository.xlsx"), sheet = "reef pieces ") %>% 
+  clean_names()
+
+```
+
+## Explore
+
+**1. fungia pieces 15 month**
+```{r}
+str(bio_raw)
+complete(bio_raw)
+
+sort(unique(bio_raw$fungia_id))
+sort(unique(bio_raw$site))
+
+```
+
+- data looks pretty clean and no issues with numeric values
+- Remove unit from `area_of_fungia_piece_before_deployment_mm2` and `perimeter_fungia_piece_mm`
+- Why are there NAs in area and perimeter columns? 
+
+**2. nr of fungia pieces per site**
+```{r}
+str(nr_raw)
+complete(nr_raw)
+```
+
+- Need to add colnames: `site` and `n`
+
+**3. reef pieces**
+
+```{r}
+str(reef_raw)
+complete(reef_raw)
+
+sort(unique(reef_raw$site))
+sort(unique(reef_raw$other_calcifiers_outside))
+sort(unique(reef_raw$coral))
+
+```
+
+- Change ? for NA in `coral`
+
+## Clean- up
+
+**1. fungia pieces 15 month**
+Remove unit from `area_of_fungia_piece_before_deployment_mm2` and `perimeter_fungia_piece_mm`
+```{r}
+
+bio_clean <- bio_raw %>% 
+  rename(area_of_fungia_piece_before_deployment = area_of_fungia_piece_before_deployment_mm2,
+         perimeter_fungia_piece = perimeter_fungia_piece_mm)
+
+```
+
+
+**2. nr of fungia pieces per site**
+- add colnames: `site` and `n`
+
+```{r}
+
+nr_names <- c("site", "n")
+
+colnames(nr_raw) <- nr_names
+  
+```
+
+**3. reef pieces**
+
+Change ? for NA in `coral`
+
+```{r}
+reef_clean <- reef_raw %>% 
+  mutate(coral = case_when(coral != "?" ~ coral))
+
+```
+
+
+```{r}
+write_csv(bio_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_bioerosion_fungia.csv"))
+
+write_csv(nr_raw, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_bioerosion_n_fungia_pieces.csv"))
+
+write_csv(reef_clean, glue("{dir_gdrive}/DATA_RAW/Franziska Elmer/clean_data/elmer_bioerosion_reef.csv") )
+```
+
+
